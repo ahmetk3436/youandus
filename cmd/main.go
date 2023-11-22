@@ -29,9 +29,11 @@ func startServer() {
 	e.WebApiFramework.Get("/location", func(c *fiber.Ctx) error {
 		ip := c.IP()
 		data, err := api.GetLocationInfo(ip)
+		println(ip)
+		print(data)
 		if err != nil {
-			c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-				"Message": "IP bilgileri alınamadı : " + err.Error(),
+			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"Message": "IP bilgileri alınamadı: " + err.Error(),
 			})
 		}
 		return c.Status(200).JSON(data)
