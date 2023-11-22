@@ -2,6 +2,8 @@ version: '3'
 
 services:
   rabbitmq:
+    networks:
+      - my_network
     image: "rabbitmq:3-management"
     ports:
       - "5672:5672"
@@ -11,6 +13,8 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
 
   mysql:
+    networks:
+      - my_network
     image: "mysql:latest"
     ports:
       - "3306:3306"
@@ -21,15 +25,31 @@ services:
       MYSQL_PASSWORD: SXLV;jFPxT34i%VOYlUX#A6rN^1a;y
 
   mongodb:
+    networks:
+      - my_network
     image: "mongo:latest"
     ports:
       - "27017:27017"
 
   redis:
+    networks:
+      - my_network
     image: "redis:latest"
     ports:
       - "6379:6379"
-
+  goapp:
+    build: .
+    container_name: goapp
+    networks:
+      - my_network
+    ports:
+      - 1323:1323
+    restart: on-failure
+    depends_on:
+      - mongodb
+      - mysql
+      - redis
+      - rabbitmq
 networks:
   my_network:
     driver: bridge
