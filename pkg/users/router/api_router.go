@@ -2,10 +2,9 @@ package router
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"youandus/pkg/users/handler"
-	"youandus/pkg/users/middleware"
-
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"youandus/pkg/middleware"
+	"youandus/pkg/users/handler"
 )
 
 type Router struct {

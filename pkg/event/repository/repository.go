@@ -17,7 +17,7 @@ func NewRepository(db *gorm.DB) Repository {
 	}
 }
 
-func (r Repository) UpdateEvent(eventID uint, eventData model.Event) (model.Event, error) {
+func (r Repository) UpdateEvent(eventID uint, eventData model.Event) (*model.Event, error) {
 	eventData.ID = eventID
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {
@@ -38,23 +38,36 @@ func (r Repository) UpdateEvent(eventID uint, eventData model.Event) (model.Even
 	})
 
 	if err != nil {
-		return model.Event{}, err
+		return nil, err
 	}
 
 	var newEvent model.Event
 	if err := r.db.First(&newEvent, "id = ?", eventID).Error; err != nil {
-		return model.Event{}, err
+		return nil, err
 	}
 
-	return newEvent, nil
+	return &newEvent, nil
 }
-
-func (r Repository) GetEvent(eventID uint) (model.Event, error) {
-	var eventData model.Event
-	if err := r.db.Table("events").Where("id = ?", eventID).Find(&eventData).Error; err != nil {
-		return model.Event{}, err
+func (r Repository) GetEvent(eventID, userID uint) (*model.Event, error) {
+	var eventData *model.Event
+	if err := r.db.Table("events").Where("id = ? AND user_id = ?", eventID, userID).Find(eventData).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("Veri bulunamadı")
+		}
+		return nil, err
 	}
 	return eventData, nil
+}
+
+func (r Repository) GetEvents(userID uint) ([]*model.Event, error) {
+	var eventDatas []*model.Event
+	if err := r.db.Table("events").Where("user_id = ?", userID).Find(&eventDatas).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("Veri bulunamadı")
+		}
+		return nil, err
+	}
+	return eventDatas, nil
 }
 
 func (r Repository) DeleteEvent(eventID uint) error {
@@ -65,7 +78,7 @@ func (r Repository) DeleteEvent(eventID uint) error {
 }
 
 func (r Repository) CreateEvent(event *model.Event) error {
-	if err := r.db.Create(&event).Error; err != nil {
+	if err := r.db.Create(event).Error; err != nil {
 		return err
 	}
 	return nil

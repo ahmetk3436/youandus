@@ -13,7 +13,7 @@ type Handler struct {
 	Api *api.UsersAPI
 }
 
-func NewUsersHandler() *Handler {
+func InitUsers() *Handler {
 	dbInstance := storage.GetDB()
 	ch := storage.ConnectRabbitMQ()
 	redisInstance, err := storage.NewRedisClient("localhost:6379", "toor")

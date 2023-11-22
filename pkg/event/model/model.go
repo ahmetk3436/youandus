@@ -4,16 +4,17 @@ import "gorm.io/gorm"
 
 type Event struct {
 	gorm.Model
-	EventName        string `json:"eventName" gorm:"default:'empty'"`
-	EventDescription string `json:"eventDescription" gorm:"default:'empty'"`
-	EventDate        string `json:"eventDate" gorm:"default:'empty'"`
-	EventLocation    string `json:"eventLocation" gorm:"default:'empty'"`
-	EventType        string `json:"eventType" gorm:"default:'empty'"`
-	Organizer        string `json:"organizer" gorm:"default:'empty'"`
-	ContactEmail     string `json:"contactEmail" gorm:"default:'empty'"`
-	ContactPhone     string `json:"contactPhone" gorm:"default:'empty'"`
-	Website          string `json:"website" gorm:"default:'empty'"`
-	Capacity         int    `json:"capacity" gorm:"default:0"`
+	EventName        string `json:"eventName" gorm:"not null"`
+	EventDescription string `json:"eventDescription" gorm:"not null"`
+	EventDate        string `json:"eventDate" gorm:"not null"`
+	EventLocation    string `json:"eventLocation" gorm:"not null"`
+	EventType        string `json:"eventType" gorm:"not null"`
+	Organizer        string `json:"organizer" gorm:"not null"`
+	ContactEmail     string `json:"contactEmail" gorm:"not null"`
+	ContactPhone     string `json:"contactPhone" gorm:"not null"`
+	Website          string `json:"website" gorm:"not null"`
+	Capacity         int    `json:"capacity" gorm:"not null"`
+	UserID           uint   `json:"user_id" gorm:"not null"`
 }
 
 func (e Event) GetEventName() string {

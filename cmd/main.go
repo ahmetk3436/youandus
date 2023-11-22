@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"sync"
+	event "youandus/pkg/event/handler"
 	info "youandus/pkg/info/handler"
 	"youandus/pkg/info/repository"
 	profileHandler "youandus/pkg/profile/handler"
@@ -17,11 +18,12 @@ func main() {
 func startServer() {
 	var wg sync.WaitGroup
 	wg.Add(1)
-	stockHandlerApi := handler.NewUsersHandler()
+	stockHandlerApi := handler.InitUsers()
 	e := router.NewRouter(*stockHandlerApi).InitRouter()
 	ServeApi(e.WebApiFramework)
 	go EmailConsumer(&wg)
 	ProfileHandler(e.WebApiFramework)
+	EventHandler(e.WebApiFramework)
 	err := e.WebApiFramework.Listen(":1323")
 	if err != nil {
 		panic(err)
@@ -37,5 +39,9 @@ func EmailConsumer(wg *sync.WaitGroup) {
 }
 
 func ProfileHandler(fiber *fiber.App) {
-	profileHandler.InitHandler(fiber)
+	profileHandler.InitProfile(fiber)
+}
+
+func EventHandler(fiber *fiber.App) {
+	event.InitEvent(fiber)
 }

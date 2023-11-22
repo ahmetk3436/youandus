@@ -2,12 +2,12 @@ package storage
 
 import (
 	"fmt"
-	"time"
-	"youandus/pkg/profile/model"
-	"youandus/pkg/users/model/user"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"time"
+	eventModel "youandus/pkg/event/model"
+	profileModel "youandus/pkg/profile/model"
+	userModel "youandus/pkg/users/model/user"
 )
 
 var db *gorm.DB // database
@@ -27,7 +27,11 @@ func init() {
 	}
 
 	db = conn
-	db.AutoMigrate(&user.UserRegister{}, &model.User{}) // Database migration
+	err = db.AutoMigrate(&userModel.UserRegister{}, &profileModel.User{}, &eventModel.Event{})
+	if err != nil {
+		panic(err)
+	}
+	println("DB Successfully migrated !")
 }
 
 func GetDB() *gorm.DB {

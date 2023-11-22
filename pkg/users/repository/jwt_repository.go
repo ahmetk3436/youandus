@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strconv"
 	"time"
-	"youandus/pkg/users/middleware"
+	"youandus/pkg/middleware"
 
 	"github.com/golang-jwt/jwt"
 )

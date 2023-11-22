@@ -1,16 +1,15 @@
 package handler
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"youandus/internal/storage"
+	"youandus/pkg/middleware"
 	"youandus/pkg/profile/api"
-	"youandus/pkg/profile/middleware"
 	"youandus/pkg/profile/repository"
 	"youandus/pkg/profile/service"
-
-	"github.com/gofiber/fiber/v2"
 )
 
-func InitHandler(fiber *fiber.App) {
+func InitProfile(fiber *fiber.App) {
 	db := storage.GetDB()
 	repo := repository.NewRepository(db)
 	service := service.NewService(&repo)
