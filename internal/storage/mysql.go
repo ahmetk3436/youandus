@@ -13,7 +13,7 @@ import (
 var db *gorm.DB // database
 
 func init() {
-	dsn := "ahmet:SXLV;jFPxT34i%VOYlUX#A6rN^1a;y@tcp(localhost:3306)/youanduseventplanner?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "ahmet:SXLV;jFPxT34i%VOYlUX#A6rN^1a;y@tcp(mysql:3306)/youanduseventplanner?charset=utf8mb4&parseTime=True&loc=Local"
 
 	var conn *gorm.DB
 	var err error

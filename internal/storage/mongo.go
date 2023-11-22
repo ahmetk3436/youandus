@@ -20,7 +20,7 @@ type Log struct {
 
 func ConnectMongoSaveLog(logData string, c fiber.Ctx) error {
 	// MongoDB bağlantısı oluşturma
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/?directConnection=true")
+	clientOptions := options.Client().ApplyURI("mongodb://mongodb:27017/?directConnection=true")
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		return err
