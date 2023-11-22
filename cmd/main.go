@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"net/http"
 	"sync"
 	event "youandus/pkg/event/handler"
 	info "youandus/pkg/info/handler"
@@ -9,6 +10,7 @@ import (
 	profileHandler "youandus/pkg/profile/handler"
 	"youandus/pkg/users/handler"
 	"youandus/pkg/users/router"
+	"youandus/pkg/utility/api"
 )
 
 func main() {
@@ -24,6 +26,16 @@ func startServer() {
 	go EmailConsumer(&wg)
 	ProfileHandler(e.WebApiFramework)
 	EventHandler(e.WebApiFramework)
+	e.WebApiFramework.Get("/location", func(c *fiber.Ctx) error {
+		ip := c.IP()
+		data, err := api.GetLocationInfo(ip)
+		if err != nil {
+			c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"Message": "IP bilgileri alınamadı : " + err.Error(),
+			})
+		}
+		return c.Status(200).JSON(data)
+	})
 	err := e.WebApiFramework.Listen(":1323")
 	if err != nil {
 		panic(err)
