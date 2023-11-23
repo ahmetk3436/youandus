@@ -68,6 +68,7 @@ func (u *UsersRepository) CreateUser(user *user2.UserRegister) (*model.BaseRespo
 	user.UserPass = ""
 	baseResponse := model.BaseResponse{
 		Message: "User Created Successfully !",
+		Data:    user,
 	}
 	userData, err := EncodeUserData(user.ID, user.UserEmail)
 	if err != nil {

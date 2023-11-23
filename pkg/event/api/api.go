@@ -144,5 +144,5 @@ func (e Event) DeleteEvent(c *fiber.Ctx) error {
 func isEmptyEvent(event *model.Event) bool {
 	return event == nil || event.EventName == "" || event.EventDescription == "" || event.EventDate == "" || event.EventLocation == "" ||
 		event.EventType == "" || event.Organizer == "" || event.ContactEmail == "" || event.ContactPhone == "" ||
-		event.Website == "" || event.Capacity == 0
+		event.Website == "" || event.Capacity == 0 || event.EventPrice == 0
 }

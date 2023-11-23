@@ -7,6 +7,7 @@ type Event struct {
 	EventName        string `json:"eventName" gorm:"not null"`
 	EventDescription string `json:"eventDescription" gorm:"not null"`
 	EventDate        string `json:"eventDate" gorm:"not null"`
+	EventPrice       int    `json:"eventPrice" gorm:"not null"`
 	EventLocation    string `json:"eventLocation" gorm:"not null"`
 	EventType        string `json:"eventType" gorm:"not null"`
 	Organizer        string `json:"organizer" gorm:"not null"`

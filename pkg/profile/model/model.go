@@ -8,10 +8,11 @@ type User struct {
 	SurName           string `json:"surName" gorm:"default:'empty'"`
 	UserName          string `json:"userName" gorm:"default:'empty'"`
 	UserEmail         string `json:"userEmail" gorm:"default:'empty'"`
+	UserType          string `json:"userType" gorm:"default:'empty'"`
 	FoundYear         string `json:"foundYear" gorm:"default:'empty'"`
 	OrganizationType  string `json:"organizationType" gorm:"default:'empty'"`
 	Capacity          string `json:"capacity" gorm:"default:'empty'"`
-	Adress            string `json:"address" gorm:"default:'empty'"`
+	Address           string `json:"address" gorm:"default:'empty'"`
 	State             string `json:"state" gorm:"default:'empty'"`
 	City              string `json:"city" gorm:"default:'empty'"`
 	ZipCode           string `json:"zipCode" gorm:"default:'empty'"`

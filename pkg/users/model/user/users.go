@@ -13,6 +13,7 @@ type UserRegister struct {
 	UserPass         string `json:"password"`
 	UserEmail        string `json:"userEmail" gorm:"unique"`
 	UserName         string `json:"userName" gorm:"unique"`
+	UserType         string `json:"userType"`
 	VerificationCode string
 	EmailVerified    bool   `gorm:"default:0"`
 	SmsVerified      bool   `gorm:"default:1"`
