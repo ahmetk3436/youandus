@@ -10,8 +10,8 @@ import (
 )
 
 func GetUserID(c *fiber.Ctx) (uint, error) {
-	user := c.Locals("user_id").(string)
-	if user == "" {
+	user, ok := c.Locals("user_id").(string)
+	if !ok || user == "" {
 		return 0, errors.New("user_id not found in token")
 	}
 	userID, err := strconv.Atoi(user)
