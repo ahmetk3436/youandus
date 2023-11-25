@@ -60,7 +60,7 @@ func (r Repository) GetEvent(eventID, userID uint) (*model.Event, error) {
 }
 func (r Repository) GetEvents() ([]*model.Event, error) {
 	var eventData []*model.Event
-	if err := r.db.Table("events").Find(eventData).Error; err != nil {
+	if err := r.db.Table("events").Find(&eventData).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("Veri bulunamadı")
 		}
