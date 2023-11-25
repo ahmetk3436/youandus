@@ -1,6 +1,7 @@
 package api
 
 import (
+	"strconv"
 	"youandus/helper"
 	"youandus/pkg/event/model"
 	"youandus/pkg/event/service"
@@ -24,13 +25,13 @@ func (e Event) handleError(c *fiber.Ctx, status int, message string) error {
 	})
 }
 
-func (e Event) GetEvents(c *fiber.Ctx) error {
+func (e Event) GetEventsFromUser(c *fiber.Ctx) error {
 	userID, err := helper.GetUserID(c)
 	if err != nil {
 		return e.handleError(c, fiber.StatusInternalServerError, "Kullanıcı bilgisi alınamadı: "+err.Error())
 	}
 
-	eventData, err := e.service.GetEvents(userID)
+	eventData, err := e.service.GetEventsFromUser(userID)
 	if err != nil {
 		return e.handleError(c, fiber.StatusInternalServerError, "Etkinlik getirilirken hata oluştu: "+err.Error())
 	}
@@ -42,13 +43,25 @@ func (e Event) GetEvents(c *fiber.Ctx) error {
 		"data":    eventData,
 	})
 }
-
+func (e Event) GetEvents(c *fiber.Ctx) error {
+	eventData, err := e.service.GetEvents()
+	if err != nil {
+		return e.handleError(c, fiber.StatusInternalServerError, "Etkinlik getirilirken hata oluştu: "+err.Error())
+	}
+	if eventData == nil {
+		return e.handleError(c, fiber.StatusInternalServerError, "Etkinlik verisi boş ! : "+err.Error())
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Etkinlikler başarıyla getirildi!",
+		"data":    eventData,
+	})
+}
 func (e Event) GetEvent(c *fiber.Ctx) error {
-	eventID := c.QueryInt("eventID", 0)
-	if eventID == 0 {
+	event := c.Query("eventID", "0")
+	if event == "" {
 		return e.handleBadRequest(c, "Geçersiz etkinlik kimliği!")
 	}
-
+	eventID, err := strconv.Atoi(event)
 	userID, err := helper.GetUserID(c)
 	if err != nil {
 		return e.handleError(c, fiber.StatusInternalServerError, "Kullanıcı bilgisi alınamadı: "+err.Error())

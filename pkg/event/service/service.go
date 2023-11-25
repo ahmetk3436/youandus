@@ -31,14 +31,20 @@ func (s Service) GetEvent(eventID, userID uint) (*model.Event, error) {
 	return eventData, nil
 }
 
-func (s Service) GetEvents(userID uint) ([]*model.Event, error) {
-	eventDatas, err := s.repo.GetEvents(userID)
+func (s Service) GetEventsFromUser(userID uint) ([]*model.Event, error) {
+	eventDatas, err := s.repo.GetEventsFromUser(userID)
 	if err != nil {
 		return nil, errors.New("Etkinlik bulunamadı")
 	}
 	return eventDatas, nil
 }
-
+func (s Service) GetEvents() ([]*model.Event, error) {
+	eventDatas, err := s.repo.GetEvents()
+	if err != nil {
+		return nil, errors.New("Etkinlik bulunamadı")
+	}
+	return eventDatas, nil
+}
 func (s Service) UpdateEvent(eventID uint, newEvent model.Event) (*model.Event, error) {
 	if eventID <= 0 {
 		return nil, errors.New("Etkinlik bulunamadı")

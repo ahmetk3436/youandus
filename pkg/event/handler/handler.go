@@ -21,5 +21,6 @@ func InitEvent(fiber *fiber.App) {
 	event.Get("", api.GetEvent)
 	event.Put("", api.UpdateEvent)
 	event.Delete("", api.DeleteEvent)
+	fiber.Get("/myEvents", api.GetEventsFromUser)
 	fiber.Get("/events", api.GetEvents)
 }
